@@ -32,6 +32,6 @@ private:
     MessageCallback callback_;
 
     void listen_loop();
-}
+};
 
 #endif

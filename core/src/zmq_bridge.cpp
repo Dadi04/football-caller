@@ -4,7 +4,7 @@
 ZmqBridge::ZmqBridge(const std::string& push_addr, const std::string& pull_addr)
     : ctx_(1), push_socket_(ctx_, zmq::socket_type::push), pull_socket_(ctx_, zmq::socket_type::pull) {
     push_socket_.connect(push_addr);
-    pull_socket_.set(zmq::socketopt::rcvtimeo, 200);
+    pull_socket_.set(zmq::sockopt::rcvtimeo, 200);
     pull_socket_.bind(pull_addr);
 }
 
@@ -32,8 +32,8 @@ void ZmqBridge::stop() {
 
 bool ZmqBridge::send_command(const nlohmann::json& cmd) {
     try {
-        std::string msg = cmd.dump();
-        zmq::message_t msg(msg.data(), msg.size());
+        std::string payload = cmd.dump();
+        zmq::message_t msg(payload.data(), payload.size());
         auto res = push_socket_.send(msg, zmq::send_flags::none);
         return res.has_value();
     } catch (const zmq::error_t& e) {

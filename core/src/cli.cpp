@@ -43,7 +43,7 @@ void CLI::handle_command(const std::string& line) {
     if (cmd == "help") {
         print_help();
     } else if (cmd == "ping-bridge") {
-        nlohmman::json cmd_json = {{"type", "PING"}};
+        nlohmann::json cmd_json = {{"type", "PING"}};
         if (bridge_.send_command(cmd_json)) {
             std::cout << "Ping command sent to Python bridge.\n";
         } else {

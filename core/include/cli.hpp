@@ -2,6 +2,7 @@
 #define CLI_HPP
 
 #include "database.hpp"
+#include "zmq_bridge.hpp"
 #include <string>
 
 class CLI {
