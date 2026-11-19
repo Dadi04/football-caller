@@ -2,7 +2,7 @@
 #include <iostream>
 #include <sstream>
 
-CLI::CLI(Database& db) : db_(db) {}
+CLI::CLI(Database& db, ZmqBridge& bridge) : db_(db), bridge_(bridge) {}
 
 void CLI::print_help() const {
     std::cout << "\n--- Football Caller CLI ---\n"
@@ -12,6 +12,7 @@ void CLI::print_help() const {
             << "  add-contact <user_id> <name> <phone>    - Adds a player (max 22 players per organizer)\n"
             << "  list-contacts <user_id>                 - Prints the players for the given organizer\n"
             << "  remove-contact <user_id> <phone>        - Deletes players by phone number\n"
+            << "  ping-bridge                             - Test ZeroMQ connection with Python bridge\n"
             << "  help                                    - Displays this help\n"
             << "  exit/quit                               - Exit the program\n\n";
 }
@@ -41,6 +42,13 @@ void CLI::handle_command(const std::string& line) {
 
     if (cmd == "help") {
         print_help();
+    } else if (cmd == "ping-bridge") {
+        nlohmman::json cmd_json = {{"type", "PING"}};
+        if (bridge_.send_command(cmd_json)) {
+            std::cout << "Ping command sent to Python bridge.\n";
+        } else {
+            std::cout << "Failed to send ping command to Python bridge.\n";
+        }
     } else if (cmd == "add-user") {
         std::string username, phone;
         if (!(iss >> username >> phone)) {

@@ -6,10 +6,11 @@
 
 class CLI {
 public:
-    CLI(Database& db);
+    CLI(Database& db, ZmqBridge& bridge);
     void run();
 private:
     Database& db_;
+    ZmqBridge& bridge_;
     void print_help() const;
     void handle_command(const std::string& line);
 };
