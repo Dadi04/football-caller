@@ -3,3 +3,7 @@ core/build
 core/*.db
 core/*.exe
 core/nul
+
+bridge/.venv
+bridge/__pycache__
+bridge/app/__pycache__
